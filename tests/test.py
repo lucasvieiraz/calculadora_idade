@@ -3,7 +3,7 @@ import sys
 import os
 from datetime import datetime
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../src')))
-
+import app
 
 def test_data_hoje():
     data_mock = datetime(2024, 10, 26).date()  
