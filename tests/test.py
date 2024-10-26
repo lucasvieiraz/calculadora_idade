@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../s
 
 
 def test_data_hoje():
-    data_mock = datetime(2024, 10, 26).date()  # 
+    data_mock = datetime(2024, 10, 26).date()  
     
     with patch("builtins.input", return_value="08/01/2006"):  
         with patch("app.datetime") as mock_datetime:
@@ -15,7 +15,7 @@ def test_data_hoje():
             import app 
             assert app.hoje.date() == data_mock 
 
-def teste_nascimento():
+def test_nascimento():
      with patch("builtins.input", return_value="08/01/2006"):
         import app
         assert app.nascimento == "08/01/2006"
