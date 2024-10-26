@@ -1,13 +1,23 @@
-from datetime import datetime
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
-def calcular_idade(data_nascimento):
-    hoje = datetime.today()
-    nascimento_datetime = datetime.strptime(data_nascimento, "%d/%m/%Y")
-    diferenca = hoje - nascimento_datetime
-    idade = diferenca.days // 365
-    return idade
+def enviar_email(usuario, senha, destinatario, assunto, texto, arquivo=None):
+    servidor = smtplib.SMTP(host="smtp.exemplo.com", port=587)
+    servidor.starttls()
+    servidor.login(usuario, senha)
 
-if __name__ == "__main__":
-    nascimento = input("Digite sua data de nascimento (dd/mm/yyyy): ")
-    idade = calcular_idade(nascimento)
-    print(f"Sua idade é {idade}")
+    msg = MIMEMultipart()
+    msg["From"] = usuario
+    msg["To"] = destinatario
+    msg["Subject"] = assunto
+
+    msg.attach(MIMEText(texto, "plain"))
+
+    # Verifique se o arquivo foi fornecido antes de tentar anexá-lo
+    if arquivo:
+        with open(arquivo, "rb") as file:
+            msg.attach(MIMEText(file.read(), "base64"))
+
+    servidor.sendmail(usuario, destinatario, msg.as_string())
+    servidor.quit()
